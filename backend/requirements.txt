@@ -1,0 +1,15 @@
+fastapi
+uvicorn
+python-multipart
+langchain
+langchain-google-genai
+langchain-pinecone
+pinecone-client
+pypdf2
+python-dotenv
+pydantic
+supabase
+tiktoken
+sentence-transformers
+chromadb
+faiss-cpu 
