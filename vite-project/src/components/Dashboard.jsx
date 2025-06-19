@@ -24,11 +24,29 @@ const Dashboard = ({ isDarkTheme = false }) => {
 
   const fetchBooks = async () => {
     try {
+      console.log('Fetching books for user:', user?.id || 'demo_user');
+      console.log('API URL:', `${API_BASE_URL}/books?user_id=${user?.id || 'demo_user'}`);
+      
       const response = await fetch(`${API_BASE_URL}/books?user_id=${user?.id || 'demo_user'}`);
+      console.log('Response status:', response.status);
+      console.log('Response ok:', response.ok);
+      
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Error response:', errorText);
+        throw new Error(`HTTP ${response.status}: ${errorText}`);
+      }
+      
       const data = await response.json();
+      console.log('Books data received:', data);
       setBooks(data.books || []);
     } catch (error) {
       console.error('Error fetching books:', error);
+      console.error('Error details:', {
+        message: error.message,
+        stack: error.stack,
+        name: error.name
+      });
     }
   };
 

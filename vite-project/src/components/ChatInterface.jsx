@@ -258,7 +258,7 @@ const ChatInterface = ({ isDarkTheme = false, onThemeToggle }) => {
             />
           )}
 
-          {/* Sidebar */}
+      {/* Sidebar */}
           <div className={`${
             isDarkTheme ? 'bg-[#1A1A1A] border-[#2C2C33]' : 'bg-[#FAFAFA] border-gray-200'
           } border-r transition-all duration-300 ${
@@ -266,10 +266,10 @@ const ChatInterface = ({ isDarkTheme = false, onThemeToggle }) => {
               ? `fixed top-0 left-0 h-full z-50 ${sidebarOpen ? 'w-72' : 'w-0 overflow-hidden'}`
               : sidebarOpen ? 'w-72' : 'w-16'
           }`}>
-            <div className="p-4">
+        <div className="p-4">
               <div className="flex items-center justify-between mb-8">
-                <button
-                  onClick={() => setSidebarOpen(!sidebarOpen)}
+            <button
+              onClick={() => setSidebarOpen(!sidebarOpen)}
                   className={`p-2 rounded-lg transition-colors ${
                     isDarkTheme 
                       ? 'text-[#8E8EA0] hover:text-[#ECECEC] hover:bg-[#2C2C33]' 
@@ -279,24 +279,24 @@ const ChatInterface = ({ isDarkTheme = false, onThemeToggle }) => {
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={sidebarOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"} />
                   </svg>
-                </button>
-                {sidebarOpen && (
-                  <button
-                    onClick={newChat}
+            </button>
+            {sidebarOpen && (
+              <button
+                onClick={newChat}
                     className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                       isDarkTheme 
                         ? 'bg-[#2C2C33] text-[#ECECEC] hover:bg-[#353540]' 
                         : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                     }`}
-                  >
-                    New Chat
-                  </button>
-                )}
-              </div>
+              >
+                New Chat
+              </button>
+            )}
+          </div>
 
-              {sidebarOpen && (
+          {sidebarOpen && (
                 <div className="space-y-6">
-                  <div>
+            <div>
                     <h3 className={`text-xs font-semibold uppercase tracking-wider mb-3 ${
                       isDarkTheme ? 'text-[#8E8EA0]' : 'text-gray-500'
                     }`}>Current Book</h3>
@@ -311,79 +311,79 @@ const ChatInterface = ({ isDarkTheme = false, onThemeToggle }) => {
                       <p className={`text-xs ${
                         isDarkTheme ? 'text-[#8E8EA0]' : 'text-gray-500'
                       }`}>{book.filename}</p>
-                    </div>
-                  </div>
+                </div>
+              </div>
 
                   <div>
                     <h3 className={`text-xs font-semibold uppercase tracking-wider mb-3 ${
                       isDarkTheme ? 'text-[#8E8EA0]' : 'text-gray-500'
                     }`}>Recent Conversations</h3>
-                    <div className="space-y-2 max-h-64 overflow-y-auto">
-                      {conversationHistory.length > 0 ? (
-                        conversationHistory.map((conversation) => (
-                          <div 
-                            key={conversation.id}
-                            onClick={() => loadConversation(conversation)}
-                            className={`p-3 rounded-lg cursor-pointer transition-colors ${
-                              currentConversationId === conversation.id 
+                <div className="space-y-2 max-h-64 overflow-y-auto">
+                  {conversationHistory.length > 0 ? (
+                    conversationHistory.map((conversation) => (
+                      <div 
+                        key={conversation.id}
+                        onClick={() => loadConversation(conversation)}
+                        className={`p-3 rounded-lg cursor-pointer transition-colors ${
+                          currentConversationId === conversation.id 
                                 ? isDarkTheme
-                                  ? 'bg-[#2F80ED] text-white' 
-                                  : 'bg-blue-50 text-blue-900 border border-blue-200'
+                                  ? 'bg-gray-600 text-white' 
+                                  : 'bg-gray-200 text-gray-900 border border-gray-300'
                                 : isDarkTheme
                                   ? 'hover:bg-[#2C2C33] text-[#ECECEC]'
                                   : 'hover:bg-gray-100 text-gray-700'
-                            }`}
-                          >
+                        }`}
+                      >
                             <div className="font-medium text-sm mb-1 truncate">
-                              {conversation.title}
-                            </div>
+                          {conversation.title}
+                        </div>
                             <div className={`text-xs ${
                               currentConversationId === conversation.id 
                                 ? 'opacity-80' 
                                 : isDarkTheme ? 'text-[#8E8EA0]' : 'text-gray-500'
                             }`}>
                               {conversation.messageCount} questions
-                            </div>
-                          </div>
-                        ))
-                      ) : (
+                        </div>
+                      </div>
+                    ))
+                  ) : (
                         <div className={`text-center py-6 ${
                           isDarkTheme ? 'text-[#8E8EA0]' : 'text-gray-400'
                         }`}>
                           <p className="text-sm">No conversations yet</p>
-                        </div>
-                      )}
                     </div>
-                  </div>
+                  )}
+                </div>
+              </div>
 
                   <div className={`pt-4 border-t ${
                     isDarkTheme ? 'border-[#424242]' : 'border-gray-200'
                   }`}>
-                    <button
-                      onClick={() => navigate('/dashboard')}
+              <button
+                onClick={() => navigate('/dashboard')}
                       className={`w-full text-left px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                         isDarkTheme 
                           ? 'text-[#8E8EA0] hover:text-[#ECECEC] hover:bg-[#2C2C33]' 
                           : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
                       }`}
-                    >
+              >
                       ← Back to Dashboard
-                    </button>
+              </button>
                   </div>
-                </div>
-              )}
             </div>
-          </div>
+          )}
+        </div>
+      </div>
 
-          {/* Main Chat Area */}
-          <div className="flex-1 flex flex-col">
-                    {/* Header */}
+      {/* Main Chat Area */}
+      <div className="flex-1 flex flex-col">
+        {/* Header */}
         <div className={`border-b px-4 md:px-6 py-3 md:py-4 ${
           isDarkTheme 
             ? 'bg-[#212121] border-[#2C2C33]' 
             : 'bg-white border-gray-200'
         }`}>
-                          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between">
               <div className="flex items-center space-x-3">
                 {/* Mobile Menu Button */}
                 <button
@@ -511,36 +511,36 @@ const ChatInterface = ({ isDarkTheme = false, onThemeToggle }) => {
                             </div>
                           )}
                                                 <div className={`p-3 md:p-4 rounded-xl ${
-                        message.role === 'user'
+                  message.role === 'user'
                           ? isDarkTheme
-                            ? 'bg-[#2F80ED] text-white'
-                            : 'bg-blue-600 text-white'
-                          : isDarkTheme
+                            ? 'bg-gray-600 text-white'
+                            : 'bg-gray-500 text-white'
+                    : isDarkTheme
                             ? 'bg-[#2C2C33] text-[#ECECEC] border border-[#424242]'
-                            : 'bg-white text-gray-900 border border-gray-200'
+                            : 'bg-gray-100 text-gray-900 border border-gray-200'
                       }`}>
                             <div className="whitespace-pre-wrap leading-relaxed">{message.content}</div>
-                            {message.sources && message.sources.length > 0 && (
-                              <div className="mt-3 pt-3 border-t border-gray-200">
+                {message.sources && message.sources.length > 0 && (
+                  <div className="mt-3 pt-3 border-t border-gray-200">
                                 <p className="text-sm font-medium mb-2">Sources:</p>
-                                {message.sources.map((source, sourceIndex) => (
-                                  <div key={sourceIndex} className="text-sm bg-gray-50 p-2 rounded mb-2">
+                    {message.sources.map((source, sourceIndex) => (
+                      <div key={sourceIndex} className="text-sm bg-gray-50 p-2 rounded mb-2">
                                     <p>{source.content}</p>
-                                  </div>
-                                ))}
-                              </div>
-                            )}
+                      </div>
+                    ))}
+                  </div>
+                )}
                           </div>
                           <div className={`text-xs mt-1 ${message.role === 'user' ? 'text-right' : 'text-left'} ${
                             isDarkTheme ? 'text-[#8E8EA0]' : 'text-gray-400'
                           }`}>
-                            {formatTimestamp(message.timestamp)}
-                          </div>
-                        </div>
-                      </div>
-                    ))}
+                  {formatTimestamp(message.timestamp)}
+                </div>
+              </div>
+            </div>
+          ))}
 
-                    {isLoading && (
+          {isLoading && (
                       <div className="flex justify-start">
                         <div className="mr-4 md:mr-12 max-w-3xl">
                           <div className="flex items-center mb-2">
@@ -556,26 +556,26 @@ const ChatInterface = ({ isDarkTheme = false, onThemeToggle }) => {
                             </span>
                           </div>
                                                 <div className={`p-4 rounded-xl border ${
-                        isDarkTheme 
+                isDarkTheme 
                           ? 'bg-[#2C2C33] border-[#424242]' 
-                          : 'bg-white border-gray-200'
-                      }`}>
-                            <div className="flex items-center space-x-2">
-                              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600"></div>
+                  : 'bg-white border-gray-200'
+              }`}>
+                <div className="flex items-center space-x-2">
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600"></div>
                               <span className={`text-sm ${isDarkTheme ? 'text-[#8E8EA0]' : 'text-gray-600'}`}>
                                 Thinking...
                               </span>
                             </div>
-                          </div>
-                        </div>
-                      </div>
-                    )}
+                </div>
+              </div>
+            </div>
+          )}
                   </div>
                 )}
               </div>
-            </div>
+        </div>
 
-                    {/* Input Area */}
+        {/* Input Area */}
         <div className={`border-t p-3 md:p-4 ${
           isDarkTheme 
             ? 'bg-[#212121] border-[#2C2C33]' 
@@ -602,27 +602,27 @@ const ChatInterface = ({ isDarkTheme = false, onThemeToggle }) => {
                   
                   {/* Input Field */}
                   <div className="flex-1">
-                    <textarea
-                      ref={inputRef}
-                      value={inputMessage}
-                      onChange={(e) => setInputMessage(e.target.value)}
-                      onKeyPress={handleKeyPress}
+                <textarea
+                  ref={inputRef}
+                  value={inputMessage}
+                  onChange={(e) => setInputMessage(e.target.value)}
+                  onKeyPress={handleKeyPress}
                       placeholder="Ask me anything..."
                       className={`w-full bg-transparent resize-none focus:outline-none text-base md:text-lg leading-relaxed ${
-                        isDarkTheme 
+                    isDarkTheme 
                           ? 'text-[#ECECEC] placeholder-[#8E8EA0]' 
                           : 'text-gray-900 placeholder-gray-500'
-                      }`}
+                  }`}
                       rows="1"
-                      disabled={isLoading}
+                  disabled={isLoading}
                       style={{ minHeight: '28px', maxHeight: '120px' }}
-                    />
-                  </div>
+                />
+              </div>
                   
                   {/* Send Button */}
-                  <button
-                    onClick={sendMessage}
-                    disabled={!inputMessage.trim() || isLoading}
+              <button
+                onClick={sendMessage}
+                disabled={!inputMessage.trim() || isLoading}
                     className={`ml-2 md:ml-3 p-2 md:p-3 rounded-xl md:rounded-2xl transition-all duration-200 flex items-center justify-center ${
                       !inputMessage.trim() || isLoading
                         ? isDarkTheme
@@ -665,7 +665,7 @@ const ChatInterface = ({ isDarkTheme = false, onThemeToggle }) => {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
                       </svg>
                       <span>Browse Prompts</span>
-                    </button>
+              </button>
                   </div>
                   <div className={`text-xs ${
                     isDarkTheme ? 'text-[#8E8EA0]' : 'text-gray-400'
@@ -677,7 +677,7 @@ const ChatInterface = ({ isDarkTheme = false, onThemeToggle }) => {
             </div>
           </div>
         </div>
-          </div>
+      </div>
         </>
       )}
     </div>

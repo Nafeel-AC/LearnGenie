@@ -490,28 +490,28 @@ Answer:"""
 
             # Combine chunks into context
             context = "\n".join([result.metadata.get("text", "") for result in results.matches])
-            
+
             if not context:
                 logger.warning(f"No content found for book_id: {book_id}")
                 return self._generate_fallback_mcqs(num_questions, difficulty)
 
             # Generate MCQs using Gemini
             prompt = f"""Based on the following text, generate {num_questions} multiple choice questions at {difficulty} difficulty level.
-Each question should have 4 options (A, B, C, D) with exactly one correct answer.
-
+            Each question should have 4 options (A, B, C, D) with exactly one correct answer.
+            
 Text: {context[:3000]}  
-
+            
 IMPORTANT: Return ONLY valid JSON in this exact format without any additional text or markdown:
-{{
-    "mcqs": [
-        {{
-            "id": 1,
+            {{
+                "mcqs": [
+                    {{
+                        "id": 1,
             "question": "Question text?",
-            "options": ["Option A", "Option B", "Option C", "Option D"],
+                        "options": ["Option A", "Option B", "Option C", "Option D"],
             "correct_answer": 0,
-            "explanation": "Explanation of the correct answer"
-        }}
-    ]
+                        "explanation": "Explanation of the correct answer"
+                    }}
+                ]
 }}"""
 
             response = await self.llm.ainvoke(prompt)

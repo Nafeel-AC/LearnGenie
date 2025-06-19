@@ -253,14 +253,14 @@ function App() {
 
       {/* Routes */}
       <div className={`${!isAuthPage && !isChatPage ? 'pb-16 md:pb-0' : ''}`}>
-        <Routes>
-          <Route path="/" element={<Home isDarkTheme={isDarkTheme} />} />
-          <Route path="/login" element={user ? <Dashboard isDarkTheme={isDarkTheme} /> : <Login />} />
-          <Route path="/signup" element={user ? <Dashboard isDarkTheme={isDarkTheme} /> : <SignUp />} />
-          <Route path="/dashboard" element={user ? <Dashboard isDarkTheme={isDarkTheme} /> : <Login />} />
-          <Route path="/profile" element={user ? <Profile isDarkTheme={isDarkTheme} /> : <Login />} />
+      <Routes>
+        <Route path="/" element={<Home isDarkTheme={isDarkTheme} />} />
+        <Route path="/login" element={user ? <Dashboard isDarkTheme={isDarkTheme} /> : <Login />} />
+        <Route path="/signup" element={user ? <Dashboard isDarkTheme={isDarkTheme} /> : <SignUp />} />
+        <Route path="/dashboard" element={user ? <Dashboard isDarkTheme={isDarkTheme} /> : <Login />} />
+        <Route path="/profile" element={user ? <Profile isDarkTheme={isDarkTheme} /> : <Login />} />
           <Route path="/chat/:bookId" element={user ? <ChatInterface isDarkTheme={isDarkTheme} onThemeToggle={handleThemeToggle} /> : <Login />} />
-        </Routes>
+      </Routes>
       </div>
 
       {/* Mobile Bottom Navigation - hidden on auth pages and chat pages */}
