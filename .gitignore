@@ -1,0 +1,73 @@
+# Environment variables - NEVER commit these!
+**/.env
+**/.env.*
+!**/.env.example
+
+# Backend Python
+backend/__pycache__/
+backend/*.pyc
+backend/*.pyo
+backend/*.pyd
+backend/.Python
+backend/build/
+backend/develop-eggs/
+backend/dist/
+backend/downloads/
+backend/eggs/
+backend/.eggs/
+backend/lib/
+backend/lib64/
+backend/parts/
+backend/sdist/
+backend/var/
+backend/wheels/
+backend/*.egg-info/
+backend/.installed.cfg
+backend/*.egg
+backend/MANIFEST
+
+# Frontend Node.js
+vite-project/node_modules/
+vite-project/dist/
+vite-project/build/
+vite-project/.next/
+vite-project/out/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+*.tmp
+*.temp
+temp/
+tmp/
+
+# Application specific
+uploads/
+downloads/
+data/
+models/
+*.pkl
+*.pickle
+
+# Vector database
+vector_store/
+chroma_db/
+pinecone_index/ 
