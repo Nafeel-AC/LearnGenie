@@ -2,7 +2,7 @@ import React from 'react'
 import { useAuth } from '../context/AuthContext'
 import { useNavigate } from 'react-router-dom'
 
-const Profile = () => {
+const Profile = ({ isDarkTheme = false }) => {
   const { user, signOut } = useAuth()
   const navigate = useNavigate()
 
@@ -17,15 +17,27 @@ const Profile = () => {
 
   if (!user) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <p className="text-gray-500">Please log in to view your profile.</p>
+      <div className={`min-h-screen flex items-center justify-center transition-colors duration-300 ${
+        isDarkTheme 
+          ? 'bg-gradient-to-br from-gray-900 to-blue-900' 
+          : 'bg-gradient-to-br from-gray-50 to-blue-50'
+      }`}>
+        <p className={`transition-colors duration-300 ${
+          isDarkTheme ? 'text-gray-400' : 'text-gray-500'
+        }`}>Please log in to view your profile.</p>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden">
+    <div className={`min-h-screen py-12 px-4 sm:px-6 lg:px-8 transition-colors duration-300 ${
+      isDarkTheme 
+        ? 'bg-gradient-to-br from-gray-900 to-blue-900' 
+        : 'bg-gradient-to-br from-gray-50 to-blue-50'
+    }`}>
+      <div className={`max-w-md mx-auto rounded-xl shadow-lg overflow-hidden transition-colors duration-300 ${
+        isDarkTheme ? 'bg-gray-800' : 'bg-white'
+      }`}>
         <div className="px-6 py-8">
           <div className="text-center">
             {/* Profile Avatar */}
@@ -36,34 +48,54 @@ const Profile = () => {
             </div>
             
             {/* User Info */}
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+            <h2 className={`text-2xl font-bold mb-2 transition-colors duration-300 ${
+              isDarkTheme ? 'text-white' : 'text-gray-900'
+            }`}>
               Profile
             </h2>
             
             <div className="space-y-4 text-left">
-              <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              <div className={`p-4 rounded-lg transition-colors duration-300 ${
+                isDarkTheme ? 'bg-gray-700' : 'bg-gray-50'
+              }`}>
+                <label className={`block text-sm font-medium mb-1 transition-colors duration-300 ${
+                  isDarkTheme ? 'text-gray-300' : 'text-gray-700'
+                }`}>
                   Email
                 </label>
-                <p className="text-gray-900 dark:text-white">
+                <p className={`transition-colors duration-300 ${
+                  isDarkTheme ? 'text-white' : 'text-gray-900'
+                }`}>
                   {user.email || 'No email provided'}
                 </p>
               </div>
               
-              <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              <div className={`p-4 rounded-lg transition-colors duration-300 ${
+                isDarkTheme ? 'bg-gray-700' : 'bg-gray-50'
+              }`}>
+                <label className={`block text-sm font-medium mb-1 transition-colors duration-300 ${
+                  isDarkTheme ? 'text-gray-300' : 'text-gray-700'
+                }`}>
                   User ID
                 </label>
-                <p className="text-gray-900 dark:text-white text-sm font-mono">
+                <p className={`text-sm font-mono transition-colors duration-300 ${
+                  isDarkTheme ? 'text-white' : 'text-gray-900'
+                }`}>
                   {user.id}
                 </p>
               </div>
               
-              <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              <div className={`p-4 rounded-lg transition-colors duration-300 ${
+                isDarkTheme ? 'bg-gray-700' : 'bg-gray-50'
+              }`}>
+                <label className={`block text-sm font-medium mb-1 transition-colors duration-300 ${
+                  isDarkTheme ? 'text-gray-300' : 'text-gray-700'
+                }`}>
                   Last Sign In
                 </label>
-                <p className="text-gray-900 dark:text-white text-sm">
+                <p className={`text-sm transition-colors duration-300 ${
+                  isDarkTheme ? 'text-white' : 'text-gray-900'
+                }`}>
                   {user.last_sign_in_at ? new Date(user.last_sign_in_at).toLocaleDateString() : 'Unknown'}
                 </p>
               </div>

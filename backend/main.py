@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 from typing import List, Optional
 import logging
 import json
+from pydantic import BaseModel
 
 from rag_service import RAGService
 from models import ChatRequest, ChatResponse, Book, ChatHistory
@@ -16,6 +17,13 @@ load_dotenv()
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
+# Define MCQ request model
+class MCQRequest(BaseModel):
+    book_id: str
+    num_questions: int
+    difficulty: str
+    user_id: str
 
 app = FastAPI(title="AI Tutor RAG API", version="1.0.0")
 
@@ -119,6 +127,22 @@ async def delete_book(book_id: str, user_id: str):
     
     except Exception as e:
         logger.error(f"Error deleting book: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/generate-mcqs")
+async def generate_mcqs(request: MCQRequest):
+    """Generate MCQs from a specific book"""
+    try:
+        mcqs = await rag_service.generate_mcqs(
+            book_id=request.book_id,
+            num_questions=request.num_questions,
+            difficulty=request.difficulty,
+            user_id=request.user_id
+        )
+        return {"mcqs": mcqs}
+    
+    except Exception as e:
+        logger.error(f"Error generating MCQs: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
 if __name__ == "__main__":
