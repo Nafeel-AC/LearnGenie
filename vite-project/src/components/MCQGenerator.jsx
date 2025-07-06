@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Loader from './Loader';
 
 const MCQGenerator = ({ book, onClose, isDarkTheme = false }) => {
   const [step, setStep] = useState('config'); // 'config', 'generating', 'quiz', 'results'
@@ -389,7 +390,7 @@ const MCQGenerator = ({ book, onClose, isDarkTheme = false }) => {
             <div className={`w-20 h-20 mx-auto mb-6 rounded-2xl flex items-center justify-center ${
               isDarkTheme ? 'bg-blue-500/10' : 'bg-blue-50'
             }`}>
-              <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-500"></div>
+              <Loader size={40} color="#3B82F6" />
             </div>
             <h3 className={`text-2xl font-semibold mb-3 ${
               isDarkTheme ? 'text-white' : 'text-gray-900'

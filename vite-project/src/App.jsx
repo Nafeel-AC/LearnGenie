@@ -8,6 +8,7 @@ import SignUp from './components/SignUp'
 import Dashboard from './components/Dashboard'
 import Profile from './components/Profile'
 import ChatInterface from './components/ChatInterface'
+import Features from './components/Features'
 
 function App() {
   const [isDarkTheme, setIsDarkTheme] = useState(false)
@@ -76,13 +77,13 @@ function App() {
                 }`}>
                   Profile
                 </Link>
-                <a href="#" className={`font-medium transition-colors ${
+                <Link to="/features" className={`font-medium transition-colors ${
                   isDarkTheme 
                     ? 'text-gray-300 hover:text-purple-300' 
                     : 'text-gray-700 hover:text-purple-700'
                 }`}>
                   Features
-                </a>
+                </Link>
                 <a href="#" className={`font-medium transition-colors ${
                   isDarkTheme 
                     ? 'text-gray-300 hover:text-purple-300' 
@@ -101,13 +102,13 @@ function App() {
                 }`}>
                   Login
                 </Link>
-                <a href="#" className={`font-medium transition-colors ${
+                <Link to="/features" className={`font-medium transition-colors ${
                   isDarkTheme 
                     ? 'text-gray-300 hover:text-purple-300' 
                     : 'text-gray-700 hover:text-purple-700'
                 }`}>
                   Features
-                </a>
+                </Link>
                 <a href="#" className={`font-medium transition-colors ${
                   isDarkTheme 
                     ? 'text-gray-300 hover:text-purple-300' 
@@ -190,8 +191,9 @@ function App() {
                 >
                   👤 Profile
                 </Link>
-                <a 
-                  href="#" 
+                <Link 
+                  to="/features" 
+                  onClick={() => setIsMobileMenuOpen(false)}
                   className={`block py-3 px-4 rounded-lg font-medium transition-colors ${
                     isDarkTheme 
                       ? 'text-gray-300 hover:text-white hover:bg-gray-700' 
@@ -199,7 +201,7 @@ function App() {
                   }`}
                 >
                   ⭐ Features
-                </a>
+                </Link>
                 <a 
                   href="#" 
                   className={`block py-3 px-4 rounded-lg font-medium transition-colors ${
@@ -225,8 +227,9 @@ function App() {
                 >
                   🔑 Login
                 </Link>
-                <a 
-                  href="#" 
+                <Link 
+                  to="/features" 
+                  onClick={() => setIsMobileMenuOpen(false)}
                   className={`block py-3 px-4 rounded-lg font-medium transition-colors ${
                     isDarkTheme 
                       ? 'text-gray-300 hover:text-white hover:bg-gray-700' 
@@ -234,7 +237,7 @@ function App() {
                   }`}
                 >
                   ⭐ Features
-                </a>
+                </Link>
                 <a 
                   href="#" 
                   className={`block py-3 px-4 rounded-lg font-medium transition-colors ${
@@ -259,7 +262,8 @@ function App() {
         <Route path="/signup" element={user ? <Dashboard isDarkTheme={isDarkTheme} /> : <SignUp />} />
         <Route path="/dashboard" element={user ? <Dashboard isDarkTheme={isDarkTheme} /> : <Login />} />
         <Route path="/profile" element={user ? <Profile isDarkTheme={isDarkTheme} /> : <Login />} />
-          <Route path="/chat/:bookId" element={user ? <ChatInterface isDarkTheme={isDarkTheme} onThemeToggle={handleThemeToggle} /> : <Login />} />
+        <Route path="/features" element={<Features isDarkTheme={isDarkTheme} />} />
+        <Route path="/chat/:bookId" element={user ? <ChatInterface isDarkTheme={isDarkTheme} onThemeToggle={handleThemeToggle} /> : <Login />} />
       </Routes>
       </div>
 

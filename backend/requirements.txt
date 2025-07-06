@@ -1,0 +1,46 @@
+# Core FastAPI and server dependencies
+fastapi
+uvicorn
+python-multipart
+python-dotenv
+
+# RAG and AI dependencies
+langchain
+langchain-google-genai
+langchain-community
+sentence-transformers
+pinecone-client
+openai
+
+# Document processing - Multiple formats
+PyPDF2
+python-docx
+openpyxl
+xlrd
+python-pptx
+markdown
+pypandoc
+
+# Web scraping dependencies
+requests
+firecrawl-py
+
+# Database and storage
+supabase
+psycopg2-binary
+
+# Image and media processing
+Pillow
+pytesseract
+opencv-python
+
+# Audio processing
+SpeechRecognition
+pydub
+
+# Additional utilities
+pydantic
+aiofiles
+python-magic-bin
+chardet
+validators 

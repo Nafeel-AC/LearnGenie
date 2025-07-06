@@ -22,11 +22,11 @@ const AnimatedFileUpload = ({ onFileSelect, disabled = false, isDarkTheme = fals
           <input 
             className="title" 
             type="file" 
-            accept=".pdf"
+            accept=".pdf,.docx,.doc,.xlsx,.xls,.csv,.pptx,.ppt,.txt,.md,.json,.png,.jpg,.jpeg,.html,.htm"
             onChange={handleFileChange}
             disabled={disabled}
           />
-          Choose PDF File
+          Choose File
         </label>
       </div>
     </StyledWrapper>

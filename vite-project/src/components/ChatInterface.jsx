@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import ThemeToggle from '../ThemeToggle';
 import MCQGenerator from './MCQGenerator';
+import Loader from './Loader';
 
 const ChatInterface = ({ isDarkTheme = false, onThemeToggle }) => {
   const { bookId } = useParams();
@@ -29,7 +30,11 @@ const ChatInterface = ({ isDarkTheme = false, onThemeToggle }) => {
   }, [bookId]);
 
   useEffect(() => {
+    // Use setTimeout to ensure DOM has been updated
+    const timer = setTimeout(() => {
     scrollToBottom();
+    }, 100);
+    return () => clearTimeout(timer);
   }, [messages]);
 
   // Handle mobile detection and sidebar state
@@ -89,7 +94,13 @@ const ChatInterface = ({ isDarkTheme = false, onThemeToggle }) => {
   };
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ 
+        behavior: 'smooth', 
+        block: 'end',
+        inline: 'nearest'
+      });
+    }
   };
 
   const sendMessage = async () => {
@@ -108,6 +119,9 @@ const ChatInterface = ({ isDarkTheme = false, onThemeToggle }) => {
 
     const updatedMessages = [...messages, newUserMessage];
     setMessages(updatedMessages);
+    
+    // Immediate scroll to show user message
+    setTimeout(() => scrollToBottom(), 50);
 
     // If this is the first message, create a new conversation entry
     if (messages.length === 0) {
@@ -223,10 +237,16 @@ const ChatInterface = ({ isDarkTheme = false, onThemeToggle }) => {
 
   if (!book) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className={`min-h-screen flex items-center justify-center ${
+        isDarkTheme ? 'bg-gray-950' : 'bg-gray-50'
+      }`}>
         <div className="text-center">
-          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading book...</p>
+          <div className="mb-6">
+            <Loader size={80} isDarkTheme={isDarkTheme} />
+          </div>
+          <p className={`text-lg font-medium ${
+            isDarkTheme ? 'text-[#ECECEC]' : 'text-gray-600'
+          }`}>Loading book...</p>
         </div>
       </div>
     );
@@ -261,12 +281,12 @@ const ChatInterface = ({ isDarkTheme = false, onThemeToggle }) => {
       {/* Sidebar */}
           <div className={`${
             isDarkTheme ? 'bg-[#1A1A1A] border-[#2C2C33]' : 'bg-[#FAFAFA] border-gray-200'
-          } border-r transition-all duration-300 ${
+          } border-r transition-all duration-300 flex flex-col ${
             isMobile 
               ? `fixed top-0 left-0 h-full z-50 ${sidebarOpen ? 'w-72' : 'w-0 overflow-hidden'}`
               : sidebarOpen ? 'w-72' : 'w-16'
           }`}>
-        <div className="p-4">
+        <div className="p-4 flex flex-col h-full">
               <div className="flex items-center justify-between mb-8">
             <button
               onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -295,8 +315,8 @@ const ChatInterface = ({ isDarkTheme = false, onThemeToggle }) => {
           </div>
 
           {sidebarOpen && (
-                <div className="space-y-6">
-            <div>
+                <div className="flex-1 flex flex-col space-y-6 overflow-hidden">
+            <div className="flex-shrink-0">
                     <h3 className={`text-xs font-semibold uppercase tracking-wider mb-3 ${
                       isDarkTheme ? 'text-[#8E8EA0]' : 'text-gray-500'
                     }`}>Current Book</h3>
@@ -314,11 +334,11 @@ const ChatInterface = ({ isDarkTheme = false, onThemeToggle }) => {
                 </div>
               </div>
 
-                  <div>
+                  <div className="flex-1 min-h-0">
                     <h3 className={`text-xs font-semibold uppercase tracking-wider mb-3 ${
                       isDarkTheme ? 'text-[#8E8EA0]' : 'text-gray-500'
                     }`}>Recent Conversations</h3>
-                <div className="space-y-2 max-h-64 overflow-y-auto">
+                <div className="space-y-2 h-full overflow-y-auto pr-2 custom-scrollbar">
                   {conversationHistory.length > 0 ? (
                     conversationHistory.map((conversation) => (
                       <div 
@@ -356,7 +376,7 @@ const ChatInterface = ({ isDarkTheme = false, onThemeToggle }) => {
                 </div>
               </div>
 
-                  <div className={`pt-4 border-t ${
+                  <div className={`flex-shrink-0 pt-4 border-t ${
                     isDarkTheme ? 'border-[#424242]' : 'border-gray-200'
                   }`}>
               <button
@@ -438,9 +458,9 @@ const ChatInterface = ({ isDarkTheme = false, onThemeToggle }) => {
             </div>
 
             {/* Messages */}
-            <div className={`flex-1 overflow-y-auto ${
+            <div className={`flex-1 overflow-y-auto custom-scrollbar ${
               isDarkTheme ? 'bg-[#212121]' : 'bg-gray-50'
-            }`}>
+            }`} style={{maxHeight: 'calc(100vh - 120px)'}}>
                               <div className="max-w-4xl mx-auto px-4 md:px-6 py-4">
                             {messages.length === 0 ? (
               <div className="text-center py-6">
@@ -560,8 +580,8 @@ const ChatInterface = ({ isDarkTheme = false, onThemeToggle }) => {
                           ? 'bg-[#2C2C33] border-[#424242]' 
                   : 'bg-white border-gray-200'
               }`}>
-                <div className="flex items-center space-x-2">
-                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600"></div>
+                <div className="flex items-center space-x-3">
+                  <Loader size={24} isDarkTheme={isDarkTheme} />
                               <span className={`text-sm ${isDarkTheme ? 'text-[#8E8EA0]' : 'text-gray-600'}`}>
                                 Thinking...
                               </span>
@@ -570,6 +590,9 @@ const ChatInterface = ({ isDarkTheme = false, onThemeToggle }) => {
               </div>
             </div>
           )}
+                  
+                  {/* Auto-scroll reference */}
+                  <div ref={messagesEndRef} />
                   </div>
                 )}
               </div>
@@ -634,7 +657,7 @@ const ChatInterface = ({ isDarkTheme = false, onThemeToggle }) => {
                     }`}
                   >
                     {isLoading ? (
-                      <div className="animate-spin rounded-full h-4 w-4 md:h-5 md:w-5 border-b-2 border-current"></div>
+                      <Loader size={20} color="currentColor" />
                     ) : (
                       <svg className="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />

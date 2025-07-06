@@ -11,6 +11,12 @@ from pydantic import BaseModel
 from rag_service import RAGService
 from models import ChatRequest, ChatResponse, Book, ChatHistory
 
+# Define web scraping request model
+class WebScrapeRequest(BaseModel):
+    url: str
+    title: Optional[str] = None
+    user_id: str
+
 # Load environment variables
 load_dotenv()
 
@@ -58,25 +64,30 @@ async def upload_book(
     file: UploadFile = File(...),
     user_id: str = None
 ):
-    """Upload a PDF book and process it for RAG"""
+    """Upload a document and process it for RAG (supports multiple formats)"""
     try:
-        if not file.filename.endswith('.pdf'):
-            raise HTTPException(status_code=400, detail="Only PDF files are supported")
+        # Check if format is supported
+        if not rag_service.is_supported_format(file.filename):
+            supported_formats = ['.pdf', '.docx', '.doc', '.xlsx', '.xls', '.csv', '.pptx', '.ppt', '.txt', '.md', '.json', '.png', '.jpg', '.jpeg', '.html', '.htm']
+            raise HTTPException(
+                status_code=400, 
+                detail=f"Unsupported file format. Supported formats: {', '.join(supported_formats)}"
+            )
         
         # Read file content
         content = await file.read()
         
-        # Process the book
+        # Process the document
         book_id = await rag_service.process_book(
             file_content=content,
             filename=file.filename,
             user_id=user_id
         )
         
-        return {"book_id": book_id, "message": "Book uploaded and processed successfully"}
+        return {"book_id": book_id, "message": "Document uploaded and processed successfully"}
     
     except Exception as e:
-        logger.error(f"Error uploading book: {e}")
+        logger.error(f"Error uploading document: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/books")
@@ -144,6 +155,43 @@ async def generate_mcqs(request: MCQRequest):
     except Exception as e:
         logger.error(f"Error generating MCQs: {e}")
         raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/scrape-url")
+async def scrape_url(request: WebScrapeRequest):
+    """Scrape content from URL and process it as a document"""
+    try:
+        book_id = await rag_service.scrape_and_process_url(
+            url=request.url,
+            user_id=request.user_id,
+            title=request.title
+        )
+        
+        return {
+            "book_id": book_id, 
+            "message": "Web content scraped and processed successfully",
+            "url": request.url
+        }
+    
+    except Exception as e:
+        logger.error(f"Error scraping URL: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/supported-formats")
+async def get_supported_formats():
+    """Get list of supported file formats"""
+    return {
+        "supported_formats": {
+            "documents": [".pdf", ".docx", ".doc"],
+            "spreadsheets": [".xlsx", ".xls", ".csv"],
+            "presentations": [".pptx", ".ppt"],
+            "text_files": [".txt", ".md", ".markdown", ".json"],
+            "images": [".png", ".jpg", ".jpeg", ".tiff", ".bmp", ".gif"],
+            "audio": [".wav", ".mp3", ".m4a", ".flac", ".aac"],
+            "web": [".html", ".htm", "URLs"]
+        },
+        "web_scraping": True,
+        "message": "Multiple document formats and web scraping supported"
+    }
 
 if __name__ == "__main__":
     import uvicorn
