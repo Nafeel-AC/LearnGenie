@@ -133,7 +133,7 @@ const StyledWrapper = styled.div`
   }
 
   .custom-file-upload {
-    font-size: 1.1em;
+    font-size: 0.9em;
     color: #ffffff;
     text-align: center;
     background: rgba(255, 255, 255, 0.2);
@@ -144,7 +144,7 @@ const StyledWrapper = styled.div`
     transition: background var(--transition) ease;
     display: inline-block;
     width: 100%;
-    padding: 10px 35px;
+    padding: 8px 20px;
     position: relative;
   }
 

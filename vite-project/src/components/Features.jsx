@@ -251,7 +251,7 @@ const Features = ({ isDarkTheme = false }) => {
               {user ? (
                 <button
                   onClick={() => navigate('/dashboard')}
-                  className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-3 rounded-xl text-base font-semibold hover:from-purple-700 hover:to-blue-700 transition-all duration-300 transform hover:scale-105 shadow-lg"
+                  className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-4 py-2 rounded-xl text-sm font-semibold hover:from-purple-700 hover:to-blue-700 transition-all duration-300 transform hover:scale-105 shadow-lg"
                 >
                   📚 Go to Dashboard
                 </button>
@@ -259,13 +259,13 @@ const Features = ({ isDarkTheme = false }) => {
                 <>
                   <button
                     onClick={() => navigate('/signup')}
-                    className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-3 rounded-xl text-base font-semibold hover:from-purple-700 hover:to-blue-700 transition-all duration-300 transform hover:scale-105 shadow-lg"
+                    className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-4 py-2 rounded-xl text-sm font-semibold hover:from-purple-700 hover:to-blue-700 transition-all duration-300 transform hover:scale-105 shadow-lg"
                   >
                     🚀 Start Free Trial
                   </button>
                   <button
                     onClick={() => navigate('/login')}
-                    className={`px-6 py-3 rounded-xl text-base font-semibold transition-all duration-300 transform hover:scale-105 ${
+                    className={`px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300 transform hover:scale-105 ${
                       isDarkTheme 
                         ? 'bg-gray-700 text-white hover:bg-gray-600' 
                         : 'bg-gray-200 text-gray-900 hover:bg-gray-300'

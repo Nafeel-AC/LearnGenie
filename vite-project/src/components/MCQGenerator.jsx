@@ -221,7 +221,7 @@ const MCQGenerator = ({ book, onClose, isDarkTheme = false }) => {
           ? 'bg-gray-900/95 backdrop-blur-sm border-gray-800' 
           : 'bg-white/95 backdrop-blur-sm border-gray-200'
       }`}>
-        <div className="max-w-4xl mx-auto flex items-center justify-between">
+        <div className="max-w-6xl mx-auto flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <button
               onClick={onClose}
@@ -268,43 +268,175 @@ const MCQGenerator = ({ book, onClose, isDarkTheme = false }) => {
       </div>
 
       {/* Main Content */}
-      <div className="max-w-4xl mx-auto px-6 py-8">
+      <div className="flex items-center justify-center min-h-[calc(100vh-80px)] px-6 py-8">
         {step === 'config' && (
-          <div className={`rounded-3xl p-8 shadow-sm border ${
-            isDarkTheme 
-              ? 'bg-gray-900/50 border-gray-800' 
-              : 'bg-white border-gray-200'
-          }`}>
-            <div className="text-center mb-8">
-              <div className={`w-16 h-16 mx-auto mb-4 rounded-2xl flex items-center justify-center ${
+          <div className="max-w-2xl">
+            <div className={`rounded-2xl p-8 shadow-lg border ${
+              isDarkTheme 
+                ? 'bg-gray-900/90 border-gray-800' 
+                : 'bg-white border-gray-200'
+            }`}>
+              {/* Header Section */}
+              <div className="text-center mb-8">
+                <div className={`w-16 h-16 mx-auto mb-4 rounded-2xl flex items-center justify-center ${
+                  isDarkTheme ? 'bg-blue-500/10' : 'bg-blue-50'
+                }`}>
+                  <svg className={`w-8 h-8 ${isDarkTheme ? 'text-blue-400' : 'text-blue-500'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                  </svg>
+                </div>
+                <h2 className={`text-2xl font-bold mb-2 ${
+                  isDarkTheme ? 'text-white' : 'text-gray-900'
+                }`}>Create Your Quiz</h2>
+                <p className={`text-base ${
+                  isDarkTheme ? 'text-gray-400' : 'text-gray-600'
+                }`}>Customize your learning experience</p>
+              </div>
+
+              {/* Configuration Options */}
+              <div className="space-y-6">
+                {/* Number of Questions */}
+                <div>
+                  <label className={`block text-sm font-semibold mb-4 ${
+                    isDarkTheme ? 'text-gray-200' : 'text-gray-800'
+                  }`}>
+                    Number of Questions
+                  </label>
+                  <div className="grid grid-cols-3 gap-3">
+                    {[5, 10, 15].map(num => (
+                      <button
+                        key={num}
+                        onClick={() => setConfig(prev => ({ ...prev, numQuestions: num }))}
+                        className={`p-4 rounded-xl text-center font-medium transition-all duration-200 border-2 transform hover:scale-105 ${
+                          config.numQuestions === num
+                            ? isDarkTheme
+                              ? 'bg-blue-500/10 border-blue-500 text-blue-400'
+                              : 'bg-blue-50 border-blue-500 text-blue-600'
+                            : isDarkTheme
+                              ? 'bg-gray-800/50 border-gray-700 text-gray-300 hover:bg-gray-800'
+                              : 'bg-gray-50 border-gray-200 text-gray-700 hover:bg-gray-100'
+                        }`}
+                      >
+                        <div className="text-2xl font-bold">{num}</div>
+                        <div className="text-xs opacity-75">questions</div>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Difficulty Level */}
+                <div>
+                  <label className={`block text-sm font-semibold mb-4 ${
+                    isDarkTheme ? 'text-gray-200' : 'text-gray-800'
+                  }`}>
+                    Difficulty Level
+                  </label>
+                  <div className="space-y-3">
+                    {[
+                      { value: 'easy', label: 'Easy', desc: 'Basic concepts and definitions', icon: '🟢' },
+                      { value: 'medium', label: 'Medium', desc: 'Moderate understanding required', icon: '🟡' },
+                      { value: 'hard', label: 'Hard', desc: 'Advanced analysis and application', icon: '🔴' }
+                    ].map(difficulty => (
+                      <button
+                        key={difficulty.value}
+                        onClick={() => setConfig(prev => ({ ...prev, difficulty: difficulty.value }))}
+                        className={`w-full p-4 rounded-xl text-left transition-all duration-200 border-2 ${
+                          config.difficulty === difficulty.value
+                            ? isDarkTheme
+                              ? 'bg-blue-500/10 border-blue-500'
+                              : 'bg-blue-50 border-blue-500'
+                            : isDarkTheme
+                              ? 'bg-gray-800/50 border-gray-700 hover:bg-gray-800'
+                              : 'bg-gray-50 border-gray-200 hover:bg-gray-100'
+                        }`}
+                      >
+                        <div className="flex items-center space-x-3">
+                          <span className="text-lg">{difficulty.icon}</span>
+                          <div className="flex-1">
+                            <div className={`font-semibold ${
+                              config.difficulty === difficulty.value
+                                ? isDarkTheme ? 'text-blue-400' : 'text-blue-600'
+                                : isDarkTheme ? 'text-white' : 'text-gray-900'
+                            }`}>{difficulty.label}</div>
+                            <div className={`text-sm ${
+                              config.difficulty === difficulty.value
+                                ? isDarkTheme ? 'text-blue-300/80' : 'text-blue-600/80'
+                                : isDarkTheme ? 'text-gray-400' : 'text-gray-500'
+                            }`}>
+                              {difficulty.desc}
+                            </div>
+                          </div>
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Generate Button */}
+                <div className="pt-4">
+                  <button
+                    onClick={generateMCQs}
+                    className={`w-full py-4 px-6 rounded-xl font-semibold transition-all duration-200 ${
+                      isDarkTheme
+                        ? 'bg-blue-500 text-white hover:bg-blue-600'
+                        : 'bg-blue-600 text-white hover:bg-blue-700'
+                    } shadow-lg hover:shadow-xl transform hover:scale-[1.02]`}
+                  >
+                    Generate {config.numQuestions} MCQs
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {step === 'generating' && (
+          <div className="max-w-md">
+            <div className={`rounded-2xl p-8 text-center shadow-lg border ${
+              isDarkTheme 
+                ? 'bg-gray-900/90 border-gray-800' 
+                : 'bg-white border-gray-200'
+            }`}>
+              <div className={`w-16 h-16 mx-auto mb-6 rounded-2xl flex items-center justify-center ${
                 isDarkTheme ? 'bg-blue-500/10' : 'bg-blue-50'
               }`}>
-                <svg className={`w-8 h-8 ${isDarkTheme ? 'text-blue-400' : 'text-blue-500'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
-                </svg>
+                <Loader size={32} color="#3B82F6" />
               </div>
-              <h2 className={`text-2xl font-semibold mb-2 ${
+              <h3 className={`text-2xl font-bold mb-3 ${
                 isDarkTheme ? 'text-white' : 'text-gray-900'
-              }`}>Create Your Quiz</h2>
-              <p className={`text-lg ${
+              }`}>
+                Generating Your Quiz
+              </h3>
+              <p className={`text-base ${
                 isDarkTheme ? 'text-gray-400' : 'text-gray-600'
-              }`}>Customize your learning experience</p>
+              }`}>
+                Creating {config.numQuestions} {config.difficulty} questions from your book...
+              </p>
             </div>
+          </div>
+        )}
 
-            <div className="grid gap-8 max-w-2xl mx-auto">
-              <div>
-                <label className={`block text-sm font-medium mb-4 ${
-                  isDarkTheme ? 'text-gray-300' : 'text-gray-700'
+        {step === 'quiz' && mcqs.length > 0 && (
+          <div className="max-w-3xl">
+            <div className={`rounded-2xl p-8 shadow-lg border ${
+              isDarkTheme 
+                ? 'bg-gray-900/90 border-gray-800' 
+                : 'bg-white border-gray-200'
+            }`}>
+              <div className="mb-8">
+                <h3 className={`text-xl font-bold mb-6 leading-relaxed ${
+                  isDarkTheme ? 'text-white' : 'text-gray-900'
                 }`}>
-                  Number of Questions
-                </label>
-                <div className="grid grid-cols-3 gap-4">
-                  {[5, 10, 15].map(num => (
+                  {mcqs[currentQuestionIndex].question}
+                </h3>
+
+                <div className="space-y-3">
+                  {mcqs[currentQuestionIndex].options.map((option, index) => (
                     <button
-                      key={num}
-                      onClick={() => setConfig(prev => ({ ...prev, numQuestions: num }))}
-                      className={`p-4 rounded-2xl text-center font-medium transition-all duration-200 border-2 ${
-                        config.numQuestions === num
+                      key={index}
+                      onClick={() => handleAnswerSelect(mcqs[currentQuestionIndex].id, index)}
+                      className={`w-full p-4 rounded-xl text-left transition-all duration-200 border-2 ${
+                        userAnswers[mcqs[currentQuestionIndex].id] === index
                           ? isDarkTheme
                             ? 'bg-blue-500/10 border-blue-500 text-blue-400'
                             : 'bg-blue-50 border-blue-500 text-blue-600'
@@ -313,279 +445,162 @@ const MCQGenerator = ({ book, onClose, isDarkTheme = false }) => {
                             : 'bg-gray-50 border-gray-200 text-gray-700 hover:bg-gray-100'
                       }`}
                     >
-                      <div className="text-2xl font-bold">{num}</div>
-                      <div className="text-xs opacity-75">questions</div>
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              <div>
-                <label className={`block text-sm font-medium mb-4 ${
-                  isDarkTheme ? 'text-gray-300' : 'text-gray-700'
-                }`}>
-                  Difficulty Level
-                </label>
-                <div className="space-y-3">
-                  {[
-                    { value: 'easy', label: 'Easy', desc: 'Basic concepts and definitions', icon: '🟢' },
-                    { value: 'medium', label: 'Medium', desc: 'Moderate understanding required', icon: '🟡' },
-                    { value: 'hard', label: 'Hard', desc: 'Advanced analysis and application', icon: '🔴' }
-                  ].map(difficulty => (
-                    <button
-                      key={difficulty.value}
-                      onClick={() => setConfig(prev => ({ ...prev, difficulty: difficulty.value }))}
-                      className={`w-full p-5 rounded-2xl text-left transition-all duration-200 border-2 ${
-                        config.difficulty === difficulty.value
-                          ? isDarkTheme
-                            ? 'bg-blue-500/10 border-blue-500'
-                            : 'bg-blue-50 border-blue-500'
-                          : isDarkTheme
-                            ? 'bg-gray-800/50 border-gray-700 hover:bg-gray-800'
-                            : 'bg-gray-50 border-gray-200 hover:bg-gray-100'
-                      }`}
-                    >
                       <div className="flex items-start space-x-3">
-                        <span className="text-xl">{difficulty.icon}</span>
-                        <div>
-                          <div className={`font-semibold ${
-                            config.difficulty === difficulty.value
-                              ? isDarkTheme ? 'text-blue-400' : 'text-blue-600'
-                              : isDarkTheme ? 'text-white' : 'text-gray-900'
-                          }`}>{difficulty.label}</div>
-                          <div className={`text-sm mt-1 ${
-                        config.difficulty === difficulty.value
-                              ? isDarkTheme ? 'text-blue-300/80' : 'text-blue-600/80'
-                          : isDarkTheme ? 'text-gray-400' : 'text-gray-500'
-                      }`}>
-                        {difficulty.desc}
-                          </div>
-                        </div>
+                        <span className={`flex-shrink-0 w-8 h-8 rounded-xl flex items-center justify-center text-sm font-semibold ${
+                          userAnswers[mcqs[currentQuestionIndex].id] === index
+                            ? isDarkTheme
+                              ? 'bg-blue-500 text-white'
+                              : 'bg-blue-500 text-white'
+                            : isDarkTheme
+                              ? 'bg-gray-700 text-gray-300'
+                              : 'bg-gray-200 text-gray-600'
+                        }`}>
+                          {String.fromCharCode(65 + index)}
+                        </span>
+                        <span className="flex-1">{option}</span>
                       </div>
                     </button>
                   ))}
                 </div>
               </div>
 
-              <button
-                onClick={generateMCQs}
-                className={`w-full py-4 px-6 rounded-2xl font-semibold transition-all duration-200 ${
-                  isDarkTheme
-                    ? 'bg-blue-500 text-white hover:bg-blue-600'
-                    : 'bg-blue-600 text-white hover:bg-blue-700'
-                } shadow-lg hover:shadow-xl transform hover:scale-[1.02]`}
-              >
-                Generate {config.numQuestions} MCQs
-              </button>
-            </div>
-          </div>
-        )}
+              <div className="flex justify-between">
+                <button
+                  onClick={() => setCurrentQuestionIndex(prev => Math.max(0, prev - 1))}
+                  disabled={currentQuestionIndex === 0}
+                  className={`px-6 py-3 rounded-xl font-medium transition-all duration-200 ${
+                    currentQuestionIndex === 0
+                      ? 'opacity-50 cursor-not-allowed'
+                      : isDarkTheme
+                        ? 'bg-gray-800 text-gray-200 hover:bg-gray-700'
+                        : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
+                  } border ${isDarkTheme ? 'border-gray-700' : 'border-gray-200'}`}
+                >
+                  Previous
+                </button>
 
-        {step === 'generating' && (
-          <div className={`rounded-3xl p-12 text-center shadow-sm border ${
-            isDarkTheme 
-              ? 'bg-gray-900/50 border-gray-800' 
-              : 'bg-white border-gray-200'
-          }`}>
-            <div className={`w-20 h-20 mx-auto mb-6 rounded-2xl flex items-center justify-center ${
-              isDarkTheme ? 'bg-blue-500/10' : 'bg-blue-50'
-            }`}>
-              <Loader size={40} color="#3B82F6" />
-            </div>
-            <h3 className={`text-2xl font-semibold mb-3 ${
-              isDarkTheme ? 'text-white' : 'text-gray-900'
-            }`}>
-              Generating Your Quiz
-            </h3>
-            <p className={`text-lg ${
-              isDarkTheme ? 'text-gray-400' : 'text-gray-600'
-            }`}>
-              Creating {config.numQuestions} {config.difficulty} questions from your book...
-            </p>
-          </div>
-        )}
-
-        {step === 'quiz' && mcqs.length > 0 && (
-          <div className={`rounded-3xl p-8 shadow-sm border ${
-            isDarkTheme 
-              ? 'bg-gray-900/50 border-gray-800' 
-              : 'bg-white border-gray-200'
-          }`}>
-            <div className="mb-8">
-              <h3 className={`text-xl font-medium mb-6 leading-relaxed ${
-                isDarkTheme ? 'text-white' : 'text-gray-900'
-              }`}>
-                {mcqs[currentQuestionIndex].question}
-              </h3>
-
-              <div className="grid gap-3">
-                {mcqs[currentQuestionIndex].options.map((option, index) => (
+                {currentQuestionIndex === mcqs.length - 1 ? (
                   <button
-                    key={index}
-                    onClick={() => handleAnswerSelect(mcqs[currentQuestionIndex].id, index)}
-                    className={`w-full p-5 rounded-2xl text-left transition-all duration-200 border-2 ${
-                      userAnswers[mcqs[currentQuestionIndex].id] === index
-                        ? isDarkTheme
-                          ? 'bg-blue-500/10 border-blue-500 text-blue-400'
-                          : 'bg-blue-50 border-blue-500 text-blue-600'
-                        : isDarkTheme
-                          ? 'bg-gray-800/50 border-gray-700 text-gray-300 hover:bg-gray-800'
-                          : 'bg-gray-50 border-gray-200 text-gray-700 hover:bg-gray-100'
-                    } transform hover:scale-[1.01]`}
+                    onClick={submitQuiz}
+                    disabled={Object.keys(userAnswers).length !== mcqs.length}
+                    className="px-8 py-3 bg-green-500 text-white rounded-xl font-semibold hover:bg-green-600 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl transform hover:scale-[1.02]"
                   >
-                    <div className="flex items-start space-x-4">
-                      <span className={`flex-shrink-0 w-8 h-8 rounded-xl flex items-center justify-center text-sm font-semibold ${
-                        userAnswers[mcqs[currentQuestionIndex].id] === index
-                          ? isDarkTheme
-                            ? 'bg-blue-500 text-white'
-                            : 'bg-blue-500 text-white'
-                          : isDarkTheme
-                            ? 'bg-gray-700 text-gray-300'
-                            : 'bg-gray-200 text-gray-600'
-                      }`}>
-                        {String.fromCharCode(65 + index)}
-                    </span>
-                      <span className="flex-1">{option}</span>
-                    </div>
+                    Submit Quiz
                   </button>
-                ))}
+                ) : (
+                  <button
+                    onClick={() => setCurrentQuestionIndex(prev => prev + 1)}
+                    className="px-8 py-3 bg-blue-500 text-white rounded-xl font-semibold hover:bg-blue-600 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-[1.02]"
+                  >
+                    Next
+                  </button>
+                )}
               </div>
-            </div>
-
-            <div className="flex justify-between">
-              <button
-                onClick={() => setCurrentQuestionIndex(prev => Math.max(0, prev - 1))}
-                disabled={currentQuestionIndex === 0}
-                className={`px-6 py-3 rounded-2xl font-medium transition-all duration-200 ${
-                  currentQuestionIndex === 0
-                    ? 'opacity-50 cursor-not-allowed'
-                    : isDarkTheme
-                      ? 'bg-gray-800 text-gray-200 hover:bg-gray-700'
-                      : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
-                } border ${isDarkTheme ? 'border-gray-700' : 'border-gray-200'}`}
-              >
-                Previous
-              </button>
-
-              {currentQuestionIndex === mcqs.length - 1 ? (
-                <button
-                  onClick={submitQuiz}
-                  disabled={Object.keys(userAnswers).length !== mcqs.length}
-                  className="px-8 py-3 bg-green-500 text-white rounded-2xl font-semibold hover:bg-green-600 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl transform hover:scale-[1.02]"
-                >
-                  Submit Quiz
-                </button>
-              ) : (
-                <button
-                  onClick={() => setCurrentQuestionIndex(prev => prev + 1)}
-                  className="px-8 py-3 bg-blue-500 text-white rounded-2xl font-semibold hover:bg-blue-600 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-[1.02]"
-                >
-                  Next
-                </button>
-              )}
             </div>
           </div>
         )}
 
         {step === 'results' && (
-          <div className={`rounded-3xl p-8 shadow-sm border ${
-            isDarkTheme 
-              ? 'bg-gray-900/50 border-gray-800' 
-              : 'bg-white border-gray-200'
-          }`}>
-            <div className="text-center mb-8">
-              <div className={`w-20 h-20 mx-auto mb-6 rounded-2xl flex items-center justify-center ${
-                score.percentage >= 80 
-                  ? 'bg-green-100 text-green-600' 
-                  : score.percentage >= 60 
-                    ? 'bg-yellow-100 text-yellow-600' 
-                    : 'bg-red-100 text-red-600'
-              }`}>
-                <span className="text-3xl">
-                {score.percentage >= 80 ? '🎉' : score.percentage >= 60 ? '👍' : '📚'}
-                </span>
+          <div className="max-w-3xl">
+            <div className={`rounded-2xl p-8 shadow-lg border ${
+              isDarkTheme 
+                ? 'bg-gray-900/90 border-gray-800' 
+                : 'bg-white border-gray-200'
+            }`}>
+              <div className="text-center mb-8">
+                <div className={`w-20 h-20 mx-auto mb-6 rounded-2xl flex items-center justify-center ${
+                  score.percentage >= 80 
+                    ? 'bg-green-100 text-green-600' 
+                    : score.percentage >= 60 
+                      ? 'bg-yellow-100 text-yellow-600' 
+                      : 'bg-red-100 text-red-600'
+                }`}>
+                  <span className="text-3xl">
+                  {score.percentage >= 80 ? '🎉' : score.percentage >= 60 ? '👍' : '📚'}
+                  </span>
+                </div>
+                <h3 className={`text-3xl font-bold mb-4 ${
+                  isDarkTheme ? 'text-white' : 'text-gray-900'
+                }`}>
+                  Quiz Complete!
+                </h3>
+                <div className={`text-5xl font-bold mb-4 ${
+                  score.percentage >= 80 ? 'text-green-500' : 
+                  score.percentage >= 60 ? 'text-yellow-500' : 'text-red-500'
+                }`}>
+                  {score.percentage}%
+                </div>
+                <p className={`text-lg ${
+                  isDarkTheme ? 'text-gray-300' : 'text-gray-700'
+                }`}>
+                  You got {score.correct} out of {score.total} questions correct
+                </p>
               </div>
-              <h3 className={`text-3xl font-bold mb-4 ${
-                isDarkTheme ? 'text-white' : 'text-gray-900'
-              }`}>
-                Quiz Complete!
-              </h3>
-              <div className={`text-5xl font-bold mb-4 ${
-                score.percentage >= 80 ? 'text-green-500' : 
-                score.percentage >= 60 ? 'text-yellow-500' : 'text-red-500'
-              }`}>
-                {score.percentage}%
-              </div>
-              <p className={`text-xl ${
-                isDarkTheme ? 'text-gray-300' : 'text-gray-700'
-              }`}>
-                You got {score.correct} out of {score.total} questions correct
-              </p>
-            </div>
 
-            <div className="space-y-4 mb-8 max-h-96 overflow-y-auto">
-              {mcqs.map((mcq, index) => {
-                const userAnswer = userAnswers[mcq.id];
-                const isCorrect = userAnswer === mcq.correct_answer;
-                
-                return (
-                  <div key={mcq.id} className={`p-5 rounded-2xl border-2 ${
-                    isCorrect
-                      ? isDarkTheme 
-                        ? 'bg-green-500/10 border-green-500/50' 
-                        : 'bg-green-50 border-green-200'
-                      : isDarkTheme 
-                        ? 'bg-red-500/10 border-red-500/50' 
-                        : 'bg-red-50 border-red-200'
-                  }`}>
-                    <div className="flex items-start justify-between mb-3">
-                      <h4 className={`font-medium pr-4 ${
-                        isDarkTheme ? 'text-white' : 'text-gray-900'
-                      }`}>
-                        Q{index + 1}: {mcq.question}
-                      </h4>
-                      <span className={`ml-2 px-3 py-1 rounded-xl text-sm font-semibold ${
-                        isCorrect 
-                          ? 'bg-green-500 text-white' 
-                          : 'bg-red-500 text-white'
-                      }`}>
-                        {isCorrect ? '✓' : '✗'}
-                      </span>
-                    </div>
-                    <div className={`text-sm space-y-2 ${
-                      isDarkTheme ? 'text-gray-300' : 'text-gray-600'
+              <div className="space-y-4 mb-8 max-h-80 overflow-y-auto">
+                {mcqs.map((mcq, index) => {
+                  const userAnswer = userAnswers[mcq.id];
+                  const isCorrect = userAnswer === mcq.correct_answer;
+                  
+                  return (
+                    <div key={mcq.id} className={`p-4 rounded-xl border-2 ${
+                      isCorrect
+                        ? isDarkTheme 
+                          ? 'bg-green-500/10 border-green-500/50' 
+                          : 'bg-green-50 border-green-200'
+                        : isDarkTheme 
+                          ? 'bg-red-500/10 border-red-500/50' 
+                          : 'bg-red-50 border-red-200'
                     }`}>
-                      <p>Your answer: <span className={isCorrect ? 'text-green-600 font-medium' : 'text-red-600 font-medium'}>
-                        {mcq.options[userAnswer]}
-                      </span></p>
-                      {!isCorrect && (
-                        <p>Correct answer: <span className="text-green-600 font-medium">
-                          {mcq.options[mcq.correct_answer]}
+                      <div className="flex items-start justify-between mb-3">
+                        <h4 className={`font-medium pr-4 ${
+                          isDarkTheme ? 'text-white' : 'text-gray-900'
+                        }`}>
+                          Q{index + 1}: {mcq.question}
+                        </h4>
+                        <span className={`ml-2 px-3 py-1 rounded-xl text-sm font-semibold ${
+                          isCorrect 
+                            ? 'bg-green-500 text-white' 
+                            : 'bg-red-500 text-white'
+                        }`}>
+                          {isCorrect ? '✓' : '✗'}
+                        </span>
+                      </div>
+                      <div className={`text-sm space-y-2 ${
+                        isDarkTheme ? 'text-gray-300' : 'text-gray-600'
+                      }`}>
+                        <p>Your answer: <span className={isCorrect ? 'text-green-600 font-medium' : 'text-red-600 font-medium'}>
+                          {mcq.options[userAnswer]}
                         </span></p>
-                      )}
+                        {!isCorrect && (
+                          <p>Correct answer: <span className="text-green-600 font-medium">
+                            {mcq.options[mcq.correct_answer]}
+                          </span></p>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                );
-              })}
-            </div>
+                  );
+                })}
+              </div>
 
-            <div className="flex space-x-4">
-              <button
-                onClick={resetQuiz}
-                className={`flex-1 py-4 px-6 rounded-2xl font-semibold transition-all duration-200 border-2 ${
-                  isDarkTheme 
-                    ? 'bg-gray-800 text-gray-200 hover:bg-gray-700 border-gray-700' 
-                    : 'bg-gray-100 text-gray-800 hover:bg-gray-200 border-gray-200'
-                }`}
-              >
-                Generate New Quiz
-              </button>
-              <button
-                onClick={onClose}
-                className="flex-1 bg-blue-500 text-white py-4 px-6 rounded-2xl font-semibold hover:bg-blue-600 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-[1.02]"
-              >
-                Back to Chat
-              </button>
+              <div className="flex space-x-4">
+                <button
+                  onClick={resetQuiz}
+                  className={`flex-1 py-4 px-6 rounded-xl font-semibold transition-all duration-200 border-2 ${
+                    isDarkTheme 
+                      ? 'bg-gray-800 text-gray-200 hover:bg-gray-700 border-gray-700' 
+                      : 'bg-gray-100 text-gray-800 hover:bg-gray-200 border-gray-200'
+                  }`}
+                >
+                  Generate New Quiz
+                </button>
+                <button
+                  onClick={onClose}
+                  className="flex-1 bg-blue-500 text-white py-4 px-6 rounded-xl font-semibold hover:bg-blue-600 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-[1.02]"
+                >
+                  Back to Chat
+                </button>
+              </div>
             </div>
           </div>
         )}
